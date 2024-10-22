@@ -1,0 +1,18 @@
+
+
+api_key: "74b0b12739d765447e7f87c0b2ed23e2"
+
+# List of cities to monitor weather for
+cities:
+  - Delhi
+  - Mumbai
+  - Chennai
+  - Bangalore
+  - Kolkata
+  - Hyderabad
+
+# Interval for fetching weather data in seconds (e.g., every 300 seconds = 5 minutes)
+interval: 300
+
+# Temperature threshold for alerting (in Celsius)
+temperature_threshold: 35

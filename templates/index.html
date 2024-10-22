@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Monitoring</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .alert {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weather Monitoring Dashboard</h1>
+    <div id="weather-summary"></div>
+    <div class="alert" id="alert-message"></div>
+    <script>
+        // Fetch and display weather data
+        function fetchWeatherData() {
+            fetch('/weather')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('weather-summary').innerHTML = `
+                        <table>
+                            <tr>
+                                <th>City</th>
+                                <th>Temperature (°C)</th>
+                                <th>Weather Condition</th>
+                            </tr>
+                            ${data.map(item => `
+                                <tr>
+                                    <td>${item.city}</td>
+                                    <td>${item.temp}</td>
+                                    <td>${item.condition}</td>
+                                </tr>
+                            `).join('')}
+                        </table>
+                    `;
+                    if (data.some(item => item.alert)) {
+                        document.getElementById('alert-message').innerText = 'Alerts triggered! Check temperature thresholds.';
+                    } else {
+                        document.getElementById('alert-message').innerText = '';
+                    }
+                });
+        }
+
+        setInterval(fetchWeatherData, 300000); // Refresh every 5 minutes
+        fetchWeatherData(); // Initial fetch
+    </script>
+</body>
+</html>
